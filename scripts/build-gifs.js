@@ -16,6 +16,16 @@ const FADE_MS = 400;     // fade out (and, symmetrically, fade back in)
 const DARK_MS = 1000;    // everything hidden, card darkened + URL shown
 // HOLD2 = REPLAY_CYCLE_MS - HOLD1 - FADE - DARK - FADE = 2400ms, visible again, loops to t=0
 
+// Render assets at 2x (or 3x for logo) the HTML display size so email clients
+// downscale instead of upscaling low-res GIFs — much sharper in Gmail/Outlook.
+const RENDER_SCALE = 2;
+const LOGO_RENDER_SCALE = 3;
+const LOGO_DISPLAY_W = 120;
+const LOGO_DISPLAY_H = 48;
+const CONTACT_DISPLAY_W = 170;
+const CONTACT_DISPLAY_H = 96;
+const PROFILE_DISPLAY = 140;
+
 function clamp01(v) {
   return v < 0 ? 0 : v > 1 ? 1 : v;
 }
@@ -111,9 +121,31 @@ function buildCycleSequence({ sweepMin, sweepMax, transitionFrames }) {
   return { sweeps, delays };
 }
 
+async function buildLogoStaticPng() {
+  const canvasW = LOGO_DISPLAY_W * LOGO_RENDER_SCALE;
+  const canvasH = LOGO_DISPLAY_H * LOGO_RENDER_SCALE;
+  const logoW = Math.round(canvasW * 0.92);
+  const src = await sharp(path.join(SRC, 'logo.png'))
+    .resize({ width: logoW })
+    .ensureAlpha()
+    .png()
+    .toBuffer();
+  const meta = await sharp(src).metadata();
+  const left = Math.round((canvasW - meta.width) / 2);
+  const top = Math.round((canvasH - meta.height) / 2);
+
+  await sharp({
+    create: { width: canvasW, height: canvasH, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } },
+  })
+    .composite([{ input: src, left, top }])
+    .png({ compressionLevel: 9 })
+    .toFile(path.join(OUT, 'logo-static.png'));
+}
+
 async function buildLogoGif() {
-  const canvasW = 240, canvasH = 96;
-  const logoW = 220;
+  const canvasW = LOGO_DISPLAY_W * LOGO_RENDER_SCALE;
+  const canvasH = LOGO_DISPLAY_H * LOGO_RENDER_SCALE;
+  const logoW = Math.round(canvasW * 0.92);
   const src = await sharp(path.join(SRC, 'logo.png'))
     .resize({ width: logoW })
     .ensureAlpha()
@@ -144,7 +176,7 @@ async function buildLogoGif() {
   }
 
   await sharp(frames, { join: { animated: true, pageHeight: canvasH } })
-    .gif({ delay: delays, loop: 0, colours: 256, effort: 10, dither: 1.0 })
+    .gif({ delay: delays, loop: 0, colours: 256, effort: 10, dither: 0.35 })
     .toFile(path.join(OUT, 'logo-animated.gif'));
 }
 
@@ -212,25 +244,25 @@ async function buildIconGif(name) {
 }
 
 async function buildContactTextGif() {
-  const width = 170;
-  const height = 96;
+  const width = CONTACT_DISPLAY_W * RENDER_SCALE;
+  const height = CONTACT_DISPLAY_H * RENDER_SCALE;
   const svg = `
     <svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">
       <style>
         text { font-family: Arial, Helvetica, sans-serif; fill: #000; }
-        .name { font-size: 16px; font-weight: 700; }
-        .small { font-size: 12px; font-weight: 400; }
-        .company { font-size: 12px; font-weight: 700; }
+        .name { font-size: ${16 * RENDER_SCALE}px; font-weight: 700; }
+        .small { font-size: ${12 * RENDER_SCALE}px; font-weight: 400; }
+        .company { font-size: ${12 * RENDER_SCALE}px; font-weight: 700; }
       </style>
-      <text class="name" x="0" y="15">Levi Carpenter</text>
-      <text class="small" x="0" y="32">Owner / Founder</text>
-      <text class="company" x="0" y="58">DigitxlLink LLC</text>
-      <text class="small" x="0" y="74">6106072432</text>
-      <text class="small" x="0" y="90">levi@thedigitxllink.com</text>
+      <text class="name" x="0" y="${15 * RENDER_SCALE}">Levi Carpenter</text>
+      <text class="small" x="0" y="${32 * RENDER_SCALE}">Owner / Founder</text>
+      <text class="company" x="0" y="${58 * RENDER_SCALE}">DigitxlLink LLC</text>
+      <text class="small" x="0" y="${74 * RENDER_SCALE}">6106072432</text>
+      <text class="small" x="0" y="${90 * RENDER_SCALE}">levi@thedigitxllink.com</text>
     </svg>`;
 
   const src = await sharp(Buffer.from(svg)).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
-  const feather = 24;
+  const feather = 24 * RENDER_SCALE;
   const { sweeps, delays } = buildCycleSequence({
     sweepMin: -feather,
     sweepMax: height + feather,
@@ -245,19 +277,19 @@ async function buildContactTextGif() {
   }
 
   await sharp(frames, { join: { animated: true, pageHeight: height } })
-    .gif({ delay: delays, loop: 0, colours: 64, effort: 10, dither: 0.5 })
+    .gif({ delay: delays, loop: 0, colours: 128, effort: 10, dither: 0.35 })
     .toFile(path.join(OUT, 'contact-text-animated.gif'));
 }
 
 async function buildProfileGif() {
-  const size = 140;
+  const size = PROFILE_DISPLAY * RENDER_SCALE;
   const src = await sharp(path.join(SRC, 'profile.png'))
     .resize(size, size, { fit: 'cover' })
     .ensureAlpha()
     .raw()
     .toBuffer({ resolveWithObject: true });
   const rounded = applyRoundedCorners(src.data, size, size, 10);
-  const feather = 28;
+  const feather = 28 * RENDER_SCALE;
   const { sweeps, delays } = buildCycleSequence({
     sweepMin: -feather,
     sweepMax: size + feather,
@@ -272,15 +304,18 @@ async function buildProfileGif() {
   }
 
   await sharp(frames, { join: { animated: true, pageHeight: size } })
-    .gif({ delay: delays, loop: 0, colours: 96, effort: 10, dither: 0.75 })
+    .gif({ delay: delays, loop: 0, colours: 192, effort: 10, dither: 0.4 })
     .toFile(path.join(OUT, 'profile-animated.gif'));
 }
 
 async function main() {
   if (!fs.existsSync(OUT)) fs.mkdirSync(OUT, { recursive: true });
 
+  await buildLogoStaticPng();
+  console.log('logo static png done');
+
   await buildLogoGif();
-  console.log('logo done');
+  console.log('logo gif done');
 
   const icons = ['web-icon', 'insta-icon', 'linkedin-icon', 'facebook-icon', 'youtube-icon'];
   for (const icon of icons) {

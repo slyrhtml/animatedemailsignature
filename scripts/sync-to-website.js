@@ -14,6 +14,7 @@ const ASSETS = [
   'facebook-icon-animated.gif',
   'insta-icon-animated.gif',
   'linkedin-icon-animated.gif',
+  'logo-static.png',
   'logo-animated.gif',
   'profile-animated.gif',
   'web-icon-animated.gif',
