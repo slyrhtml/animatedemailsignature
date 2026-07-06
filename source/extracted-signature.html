@@ -1,0 +1,101 @@
+<!--
+  Extracted signature markup (source of truth).
+  Pulled from the customesignature.com dashboard preview — all app-chrome
+  (kt-card wrapper, dropdown menu, master badge, edit/duplicate/share/delete
+  toolbar, hover overlays) has been stripped since it's UI for their editor,
+  not part of the actual signature that gets pasted into an email client.
+
+  Removed vs. the raw dashboard copy:
+  - transform: translate(0px,0px) scale(1); transform-origin: left top;
+    on the outer <table> — that's a live-preview zoom hack from their editor,
+    meaningless (and potentially harmful) once pasted into Gmail/Outlook.
+  - The "Sent with Custom Esignature" branding row + their copyright icon
+    and verified.gif badge — that's their upsell watermark, not your content.
+    (Left in a commented block below in case you want it back.)
+
+  Everything else — table structure, inline styles, image URLs, your name/
+  title/company/phone/email, social icons, CTA button placeholders — is
+  preserved exactly as rendered.
+-->
+<table class="signature_tbl" cellpadding="0" cellspacing="0" border="0" style="border-collapse: collapse; font-size: 10px; font-family: Inter, sans-serif;">
+  <tbody>
+    <tr>
+      <td class="layout_maintd" style="line-height:16px;font-family:Inter, sans-serif; border-collapse:collapse;">
+        <table cellpadding="0" cellspacing="0" style="border-collapse: separate;">
+          <tbody>
+            <tr>
+              <td align="left" valign="top" class="layout_border" style="border-collapse:collapse; padding:15px; border-radius:5px; border-width: 1px; border-color:#e2e2e2; border-style: solid; border-radius:5px 5px 0 0;">
+                <table cellpadding="0" cellspacing="0" style="border-collapse: separate;">
+                  <tbody>
+                    <tr>
+                      <td align="left" valign="middle" class="layout_border layout_socialicon_border" style="border-collapse:separate; border-radius:5px; border-width: 1px; border-color:#e2e2e2; border-style: solid; padding:3px 8px 8px 8px;">
+                        <table border="0" cellspacing="0" cellpadding="0">
+                          <tbody>
+                            <tr><td class="layout-web-icon sicon" style="padding:5px 0 0 0"><a href="http://web.com" target="_blank"><img alt="" src="https://image.customesignature.com/images/static/images/social/static/4/web-icon.png" width="24"></a></td></tr>
+                            <tr><td class="layout-insta-icon sicon" style="padding:5px 0 0 0"><a href="https://www.instagram.com/" target="_blank"><img alt="" src="https://image.customesignature.com/images/static/images/social/static/4/insta-icon.png" width="24"></a></td></tr>
+                            <tr><td class="layout-linkedin-icon sicon" style="padding:5px 0 0 0"><a href="https://linkedin.com/" target="_blank"><img alt="" src="https://image.customesignature.com/images/static/images/social/static/4/linkedin-icon.png" width="24"></a></td></tr>
+                            <tr><td class="layout-facebook-icon sicon" style="padding:5px 0 0 0"><a href="https://www.facebook.com/" target="_blank"><img alt="" src="https://image.customesignature.com/images/static/images/social/static/4/facebook-icon.png" width="24"></a></td></tr>
+                            <tr><td class="layout-youtube-icon sicon" style="padding:5px 0 0 0"><a href="https://youtube.com/" target="_blank"><img alt="" src="https://image.customesignature.com/images/static/images/social/static/4/youtube-icon.png" width="24"></a></td></tr>
+                          </tbody>
+                        </table>
+                      </td>
+                      <td class="layout_between_gap" style="padding-right:20px; border-collapse:collapse;"></td>
+                      <td align="left" valign="middle">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                          <tbody>
+                            <tr>
+                              <td align="left" valign="middle" style="border-collapse:collapse;">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                  <tbody>
+                                    <tr><td><a href="https://customesignature.com/" id="layout_link"><img class="layout_logo" src="https://customesignature.s3.us-west-1.amazonaws.com/upload/signature/25481/25481.png" width="120" style="display:block;"></a></td></tr>
+                                    <tr>
+                                      <td style="border-collapse: collapse; padding:0 0 10px 0;">
+                                        <table border="0" cellspacing="0" cellpadding="0">
+                                          <tbody>
+                                            <tr>
+                                              <td style="padding:15px 0 0 0; border-collapse: collapse;">
+                                                <table border="0" cellspacing="0" cellpadding="0">
+                                                  <tbody>
+                                                    <tr>
+                                                      <td align="left" valign="middle" nowrap="nowrap"><span class="layout_firstname" style="font-weight:bold; font-style:normal; color:#000000; font-size:16px;">Levi Carpenter</span></td>
+                                                      <td align="left" valign="middle" style="padding-left:5px;"><img class="layout_verified" width="15" height="15" src="https://customesignature.s3.us-west-1.amazonaws.com/images/verify.gif" style="display:none;"></td>
+                                                    </tr>
+                                                  </tbody>
+                                                </table>
+                                              </td>
+                                            </tr>
+                                            <tr><td style="border-collapse: collapse;" nowrap="nowrap"><span class="layout_jobtitle" style="font-weight:normal; font-style:normal; color:#000000; font-size:12px;">Owner / Founder / CEO</span></td></tr>
+                                          </tbody>
+                                        </table>
+                                      </td>
+                                    </tr>
+                                    <tr><td style="border-collapse: collapse;"><span class="layout_company" style="font-weight:bold; font-style:normal; color:#000000; font-size:12px;">DigitxlLink LLC</span></td></tr>
+                                    <tr><td style="border-collapse: collapse;" nowrap="nowrap"><span class="layout_phone_label1 label" style="font-weight:bold; font-style:normal; color:#000000; font-size:12px;"></span><span class="layout_phone1" style="font-weight:normal; font-style:normal; color:#000000; font-size:12px;">6106072432</span></td></tr>
+                                    <tr><td style="border-collapse: collapse;" nowrap="nowrap"><span class="layout_email_label1 label" style="font-weight:bold; font-style:normal; color:#000000; font-size:12px;"></span><span class="layout_email1" style="font-weight:normal; font-style:normal; color:#000000; font-size:12px;">levi@thedigitxllink.com</span></td></tr>
+                                  </tbody>
+                                </table>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                      <td align="left" valign="middle" style="padding:0 0 0 15px; border-collapse:collapse;" class="htmltogifClass">
+                        <img style="display:inline;border-radius:10px" class="signature_profile" src="https://customesignature.s3.us-west-1.amazonaws.com/upload/signature/profile/25481/52382-1783322486-25481.png?v=1783322529" width="140">
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<!--
+  Dropped "Sent with Custom Esignature" watermark row + CTA button /
+  banner / disclaimer placeholders that were entirely empty (display:none
+  or no href/src). Say the word if you actually use CTA buttons, a banner,
+  or a disclaimer line and I'll add them back with real content.
+-->
