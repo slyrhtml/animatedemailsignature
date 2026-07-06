@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DigitxlLink Signature - HQ Local Preview</title>
+  <style>
+    :root {
+      --cycle: 10s;
+    }
+
+    @keyframes cardBreath {
+      0%, 100% {
+        background-position: 0% 0%;
+        background-size: 100% 100%;
+      }
+      50% {
+        background-position: 12% 8%;
+        background-size: 112% 112%;
+      }
+    }
+
+    @keyframes cardShade {
+      0%, 48% {
+        opacity: 0;
+      }
+      55%, 71% {
+        opacity: 1;
+      }
+      78%, 100% {
+        opacity: 0;
+      }
+    }
+
+    @keyframes urlCycle {
+      0%, 52% {
+        opacity: 0;
+        transform: translateY(8px) scale(0.98);
+        filter: blur(3px);
+      }
+      56%, 70% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+      }
+      74%, 100% {
+        opacity: 0;
+        transform: translateY(-6px) scale(0.99);
+        filter: blur(2px);
+      }
+    }
+
+    @keyframes typeText {
+      0%, 53% {
+        clip-path: inset(0 100% 0 0);
+        opacity: 0;
+      }
+      56% {
+        opacity: 1;
+      }
+      68%, 75% {
+        clip-path: inset(0 0 0 0);
+        opacity: 1;
+      }
+      78%, 100% {
+        clip-path: inset(0 100% 0 0);
+        opacity: 0;
+      }
+    }
+
+    @keyframes revealGlow {
+      0%, 53% {
+        transform: translateX(-100%);
+        opacity: 0;
+      }
+      56% {
+        opacity: 0.42;
+      }
+      68%, 75% {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      78%, 100% {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+    }
+
+    @keyframes socialCycle {
+      0%, 48% {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+        filter: blur(0);
+      }
+      55%, 71% {
+        opacity: 0;
+        transform: translateX(-14px) scale(0.92);
+        filter: blur(2px);
+      }
+      78%, 100% {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+        filter: blur(0);
+      }
+    }
+
+    @keyframes logoCycle {
+      0%, 48% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0) saturate(1);
+      }
+      55%, 71% {
+        opacity: 0;
+        transform: translateY(-12px) scale(0.96);
+        filter: blur(2px) saturate(0.65);
+      }
+      78%, 100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0) saturate(1);
+      }
+    }
+
+    @keyframes contactCycle {
+      0%, 48% {
+        opacity: 1;
+        transform: translate(0, 0);
+        filter: blur(0);
+      }
+      55%, 71% {
+        opacity: 0;
+        transform: translate(var(--exit-x, 0), var(--exit-y, 12px));
+        filter: blur(1.5px);
+      }
+      78%, 100% {
+        opacity: 1;
+        transform: translate(0, 0);
+        filter: blur(0);
+      }
+    }
+
+    @keyframes iconCycle {
+      0%, 48% {
+        opacity: 1;
+        transform: translate(0, 0) rotate(0) scale(1);
+      }
+      55%, 71% {
+        opacity: 0;
+        transform: translate(var(--icon-x, 0), var(--icon-y, 0)) rotate(var(--icon-rot, 0deg)) scale(var(--icon-scale, 0.75));
+      }
+      78%, 100% {
+        opacity: 1;
+        transform: translate(0, 0) rotate(0) scale(1);
+      }
+    }
+
+    @keyframes photoCycle {
+      0%, 48% {
+        clip-path: inset(0 0 0 0 round 10px);
+        opacity: 1;
+        transform: translateX(0) scale(1);
+        filter: blur(0) brightness(1);
+      }
+      55%, 71% {
+        clip-path: inset(0 0 0 100% round 10px);
+        opacity: 0;
+        transform: translateX(18px) scale(0.985);
+        filter: blur(1px) brightness(0.9);
+      }
+      78%, 100% {
+        clip-path: inset(0 0 0 0 round 10px);
+        opacity: 1;
+        transform: translateX(0) scale(1);
+        filter: blur(0) brightness(1);
+      }
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      background: #eef1f4;
+      font-family: Inter, Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      display: grid;
+      place-items: center;
+      padding: 32px;
+    }
+
+    .signature-shell {
+      background: #fff;
+      border: 1px solid #d8dde3;
+      border-radius: 8px;
+      padding: 40px;
+      box-shadow: 0 16px 36px rgba(20, 27, 41, 0.12);
+    }
+
+    .signature-card {
+      background-color: #eaf3fc;
+      background-image:
+        radial-gradient(circle at 9% 12%, rgba(111, 168, 220, 0.78), rgba(188, 221, 244, 0.55) 34%, rgba(239, 248, 255, 0.96) 78%),
+        linear-gradient(120deg, #bddcf4, #f5fbff);
+      background-position: 0% 0%;
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      border: 1px solid #e2e2e2;
+      border-radius: 5px;
+      overflow: hidden;
+      padding: 15px;
+      position: relative;
+      animation: cardBreath var(--cycle) ease-in-out infinite;
+    }
+
+    .signature-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(18, 29, 42, 0.62);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 1;
+      animation: cardShade var(--cycle) cubic-bezier(0.65, 0, 0.35, 1) infinite;
+    }
+
+    .signature-card > table {
+      position: relative;
+      z-index: 2;
+    }
+
+    .url-reveal {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 3;
+      animation: urlCycle var(--cycle) cubic-bezier(0.65, 0, 0.35, 1) infinite;
+    }
+
+    .url-reveal span {
+      color: #fff;
+      display: block;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 27px;
+      font-weight: 500;
+      letter-spacing: 0;
+      line-height: 1;
+      left: 50%;
+      position: absolute;
+      text-rendering: geometricPrecision;
+      text-shadow: 0 1px 10px rgba(0, 0, 0, 0.16);
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: max-content;
+    }
+
+    .url-reveal span::before {
+      content: "thedigitxllink.com";
+      display: block;
+      opacity: 0;
+      white-space: nowrap;
+      width: max-content;
+      animation: typeText var(--cycle) cubic-bezier(0.58, 0, 0.22, 1) infinite;
+    }
+
+    .url-reveal .sweep {
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+      bottom: -0.2em;
+      display: block;
+      left: 0;
+      opacity: 0;
+      position: absolute;
+      top: -0.2em;
+      width: 26%;
+      animation: revealGlow var(--cycle) cubic-bezier(0.58, 0, 0.22, 1) infinite;
+    }
+
+    .fg-social,
+    .fg-logo,
+    .fg-contact,
+    .fg-photo {
+      will-change: clip-path, filter, opacity, transform;
+    }
+
+    .fg-social {
+      animation: socialCycle var(--cycle) cubic-bezier(0.65, 0, 0.35, 1) infinite;
+      transform-origin: center left;
+    }
+
+    .fg-logo {
+      animation: logoCycle var(--cycle) cubic-bezier(0.65, 0, 0.35, 1) infinite;
+      transform-origin: center center;
+    }
+
+    .contact-line {
+      animation: contactCycle var(--cycle) cubic-bezier(0.65, 0, 0.35, 1) infinite;
+      will-change: filter, opacity, transform;
+    }
+
+    .fg-photo {
+      animation: photoCycle var(--cycle) cubic-bezier(0.65, 0, 0.35, 1) infinite;
+      transform-origin: center right;
+    }
+
+    .social-box {
+      border: 1px solid #000;
+      border-radius: 5px;
+      padding: 3px 8px 8px;
+      line-height: 0;
+    }
+
+    .social-box a {
+      color: transparent;
+      display: block;
+      font-size: 0;
+      line-height: 0;
+      text-decoration: none !important;
+    }
+
+    .social-box img {
+      border: 0;
+      display: block;
+      line-height: 0;
+      outline: 0;
+      text-decoration: none;
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+      animation: iconCycle var(--cycle) cubic-bezier(0.65, 0, 0.35, 1) infinite;
+      transform-origin: center center;
+      will-change: opacity, transform;
+    }
+
+    .logo {
+      display: block;
+      width: 120px;
+      height: 48px;
+      object-fit: contain;
+    }
+
+    .contact {
+      padding-top: 15px;
+      line-height: 16px;
+      color: #000;
+      white-space: nowrap;
+    }
+
+    .name {
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .title,
+    .phone,
+    .email {
+      font-size: 12px;
+      font-weight: 400;
+    }
+
+    .company {
+      font-size: 12px;
+      font-weight: 700;
+      padding-top: 10px;
+    }
+
+    .profile {
+      display: block;
+      width: 140px;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="signature-shell">
+    <table class="signature_tbl" cellpadding="0" cellspacing="0" border="0" style="border-collapse: collapse; font-size: 10px; font-family: Inter, Arial, Helvetica, sans-serif;">
+      <tbody>
+        <tr>
+          <td class="signature-card" align="left" valign="top">
+            <div class="url-reveal"><span aria-label="thedigitxllink.com"><i class="sweep"></i></span></div>
+            <table cellpadding="0" cellspacing="0" style="border-collapse: separate;">
+              <tbody>
+                <tr>
+                  <td align="left" valign="middle" class="social-box fg-social">
+                    <table border="0" cellspacing="0" cellpadding="0">
+                      <tbody>
+                        <tr><td style="padding:5px 0 0 0; line-height:0; font-size:0;"><a href="https://thedigitxllink.com" target="_blank" style="display:block; line-height:0; font-size:0; color:transparent; text-decoration:none !important; border:0;"><img alt="" src="/signature-hq/web-icon.png" style="display:block; border:0; outline:0; text-decoration:none; --icon-x:-8px; --icon-y:-8px; --icon-rot:-22deg; --icon-scale:0.7;"></a></td></tr>
+                        <tr><td style="padding:5px 0 0 0; line-height:0; font-size:0;"><a href="https://www.instagram.com/slyrhtml/" target="_blank" style="display:block; line-height:0; font-size:0; color:transparent; text-decoration:none !important; border:0;"><img alt="" src="/signature-hq/insta-icon.png" style="display:block; border:0; outline:0; text-decoration:none; --icon-x:7px; --icon-y:-4px; --icon-rot:16deg; --icon-scale:0.82;"></a></td></tr>
+                        <tr><td style="padding:5px 0 0 0; line-height:0; font-size:0;"><a href="https://www.linkedin.com/in/levi-carpenter-17023135a/" target="_blank" style="display:block; line-height:0; font-size:0; color:transparent; text-decoration:none !important; border:0;"><img alt="" src="/signature-hq/linkedin-icon.png" style="display:block; border:0; outline:0; text-decoration:none; --icon-x:-10px; --icon-y:2px; --icon-rot:0deg; --icon-scale:0.74;"></a></td></tr>
+                        <tr><td style="padding:5px 0 0 0; line-height:0; font-size:0;"><a href="https://www.facebook.com/profile.php?id=61574660926860" target="_blank" style="display:block; line-height:0; font-size:0; color:transparent; text-decoration:none !important; border:0;"><img alt="" src="/signature-hq/facebook-icon.png" style="display:block; border:0; outline:0; text-decoration:none; --icon-x:8px; --icon-y:7px; --icon-rot:-12deg; --icon-scale:0.78;"></a></td></tr>
+                        <tr><td style="padding:5px 0 0 0; line-height:0; font-size:0;"><a href="https://www.youtube.com/@TheDigitxlLink" target="_blank" style="display:block; line-height:0; font-size:0; color:transparent; text-decoration:none !important; border:0;"><img alt="" src="/signature-hq/youtube-icon.png" style="display:block; border:0; outline:0; text-decoration:none; --icon-x:0; --icon-y:10px; --icon-rot:8deg; --icon-scale:0.7;"></a></td></tr>
+                      </tbody>
+                    </table>
+                  </td>
+                  <td style="padding-right:20px; border-collapse:collapse;"></td>
+                  <td align="left" valign="middle">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tbody>
+                        <tr><td><a href="https://customesignature.com/"><img class="logo fg-logo" src="/signature-hq/logo.png" alt="DigitxlLink"></a></td></tr>
+                        <tr>
+                          <td class="contact">
+                            <div class="name contact-line" style="--exit-x:-6px; --exit-y:-8px;">Levi Carpenter</div>
+                            <div class="title contact-line" style="--exit-x:8px; --exit-y:-3px;">Owner / Founder</div>
+                            <div class="company contact-line" style="--exit-x:-10px; --exit-y:5px;">DigitxlLink LLC</div>
+                            <div class="phone contact-line" style="--exit-x:6px; --exit-y:8px;">6106072432</div>
+                            <div class="email contact-line" style="--exit-x:0; --exit-y:12px;">levi@thedigitxllink.com</div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                  <td align="left" valign="middle" style="padding:0 0 0 15px; border-collapse:collapse;">
+                    <img class="profile fg-photo" src="/signature-hq/profile.jpg" alt="Levi Carpenter">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

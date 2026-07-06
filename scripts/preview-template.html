@@ -1,0 +1,422 @@
+<title>Signature Preview — DigitxlLink</title>
+<style>
+  @font-face {
+    font-family: 'Plex Sans';
+    src: url(__FONT_PLEXSANS__) format('woff2');
+    font-weight: 400 700;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Plex Mono';
+    src: url(__FONT_PLEXMONO400__) format('woff2');
+    font-weight: 400;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Plex Mono';
+    src: url(__FONT_PLEXMONO500__) format('woff2');
+    font-weight: 500;
+    font-display: swap;
+  }
+
+  /* Preview page styles. */
+  :root {
+    --bg: #eef1f4;
+    --surface: #ffffff;
+    --surface-sunken: #e4e8ed;
+    --text: #1b1f27;
+    --text-muted: #5b6472;
+    --border: #d8dde3;
+    --accent: #2f5fd6;
+    --accent-soft: #e6ecfb;
+    --ok: #3f8f5f;
+    --ok-soft: #e4f3e9;
+    --shadow: rgba(20, 27, 41, 0.10);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #11141a;
+      --surface: #1a1e26;
+      --surface-sunken: #21262f;
+      --text: #e7eaef;
+      --text-muted: #8f98a6;
+      --border: #2c313c;
+      --accent: #6f95ff;
+      --accent-soft: #202a45;
+      --ok: #5fbb82;
+      --ok-soft: #1c2e22;
+      --shadow: rgba(0, 0, 0, 0.45);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #11141a;
+    --surface: #1a1e26;
+    --surface-sunken: #21262f;
+    --text: #e7eaef;
+    --text-muted: #8f98a6;
+    --border: #2c313c;
+    --accent: #6f95ff;
+    --accent-soft: #202a45;
+    --ok: #5fbb82;
+    --ok-soft: #1c2e22;
+    --shadow: rgba(0, 0, 0, 0.45);
+  }
+  :root[data-theme="light"] {
+    --bg: #eef1f4;
+    --surface: #ffffff;
+    --surface-sunken: #e4e8ed;
+    --text: #1b1f27;
+    --text-muted: #5b6472;
+    --border: #d8dde3;
+    --accent: #2f5fd6;
+    --accent-soft: #e6ecfb;
+    --ok: #3f8f5f;
+    --ok-soft: #e4f3e9;
+    --shadow: rgba(20, 27, 41, 0.10);
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Plex Sans', system-ui, sans-serif;
+    margin: 0;
+  }
+  body {
+    padding: 48px 20px 80px;
+    display: flex;
+    justify-content: center;
+  }
+  main {
+    width: 100%;
+    max-width: 760px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .eyebrow {
+    font-family: 'Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 500;
+  }
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 8px 0 6px;
+    text-wrap: balance;
+    letter-spacing: -0.01em;
+  }
+  .lede {
+    color: var(--text-muted);
+    font-size: 15px;
+    line-height: 1.6;
+    max-width: 60ch;
+  }
+  header { padding-bottom: 4px; border-bottom: 1px solid var(--border); padding-bottom: 32px; }
+
+  .status-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 18px;
+    flex-wrap: wrap;
+  }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Plex Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 5px 10px;
+    border-radius: 999px;
+    background: var(--ok-soft);
+    color: var(--ok);
+    border: 1px solid color-mix(in srgb, var(--ok) 35%, transparent);
+  }
+  .pill::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--ok);
+  }
+
+  section.block {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .block h2 {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+  .block h2 .num {
+    font-family: 'Plex Mono', monospace;
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 400;
+  }
+  .block p.desc {
+    margin: -4px 0 0;
+    color: var(--text-muted);
+    font-size: 13.5px;
+    line-height: 1.6;
+    max-width: 62ch;
+  }
+
+  .canvas {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 40px 32px;
+    box-shadow: 0 12px 32px -8px var(--shadow);
+    display: flex;
+    justify-content: center;
+  }
+  .canvas img { max-width: 100%; }
+
+  .replay-row {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    align-items: center;
+  }
+  button.replay {
+    font-family: 'Plex Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    background: var(--accent);
+    border: none;
+    border-radius: 7px;
+    padding: 9px 16px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    transition: filter 0.15s ease;
+  }
+  button.replay:hover { filter: brightness(1.08); }
+  button.replay:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+  button.replay svg { width: 14px; height: 14px; }
+  .replay-hint {
+    font-size: 12.5px;
+    color: var(--text-muted);
+  }
+
+  table.spec {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  table.spec th, table.spec td {
+    text-align: left;
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  table.spec th {
+    font-weight: 600;
+    color: var(--text-muted);
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  table.spec td.num, table.spec th.num {
+    font-family: 'Plex Mono', monospace;
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+    white-space: nowrap;
+  }
+  table.spec tr:last-child td { border-bottom: none; }
+  table.spec tbody tr:hover { background: var(--surface-sunken); }
+  .spec-wrap {
+    overflow-x: auto;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+  }
+  .spec-wrap table.spec { min-width: 480px; }
+
+  .callout {
+    background: var(--accent-soft);
+    border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+    border-radius: 10px;
+    padding: 16px 18px;
+    font-size: 13.5px;
+    line-height: 1.65;
+    color: var(--text);
+  }
+  .callout strong { color: var(--accent); }
+  .callout code {
+    font-family: 'Plex Mono', monospace;
+    font-size: 12.5px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 5px;
+  }
+
+  footer {
+    color: var(--text-muted);
+    font-size: 12.5px;
+    text-align: center;
+    padding-top: 8px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    button.replay { transition: none; }
+  }
+</style>
+
+<main>
+  <header>
+    <div class="eyebrow">Animated signature · preview build</div>
+    <h1>Levi Carpenter's signature, rendered live</h1>
+    <p class="lede">This is the actual output of the build pipeline below — the same GIF bytes that will ship in your signature, not a mockup. Embedded directly into this page so you can watch it animate before deciding where to host the files.</p>
+    <div class="status-row">
+      <span class="pill">__TOTAL_KB__ KB across 10 files / 200 KB budget</span>
+    </div>
+  </header>
+
+  <section class="block">
+    <h2>Rendered signature</h2>
+    <p class="desc">Every 8 seconds, the whole card runs the same sequence together: the logo, icons, contact text, and photo all smoothly fade out; the card darkens; <strong>thedigitxllink.com</strong> appears; it fades out; then everything fades back in. The background breathes continuously in between. Every GIF opens on its fully-visible frame first, so Outlook (which only ever shows frame 1, never animates) always sees the finished result — never mid-fade.</p>
+    <div class="canvas">
+      <table class="signature_tbl" cellpadding="0" cellspacing="0" border="0" style="border-collapse: collapse; font-size: 10px; font-family: Inter, sans-serif;">
+        <tbody>
+          <tr>
+            <td class="layout_maintd" style="line-height:16px;font-family:Inter, sans-serif; border-collapse:collapse;">
+              <table cellpadding="0" cellspacing="0" style="border-collapse: separate;">
+                <tbody>
+                  <tr>
+                    <td align="left" valign="top" class="layout_border" style="background-image:url('__ASSET_CARDBG__'); background-size:cover; background-repeat:no-repeat; border-collapse:collapse; padding:15px; border-radius:5px; border-width: 1px; border-color:#e2e2e2; border-style: solid;">
+                      <table cellpadding="0" cellspacing="0" style="border-collapse: separate;">
+                        <tbody>
+                          <tr>
+                            <td align="left" valign="middle" class="layout_border layout_socialicon_border" style="border-collapse:separate; border-radius:5px; border-width: 1px; border-color:#e2e2e2; border-style: solid; padding:3px 8px 8px 8px;">
+                              <table border="0" cellspacing="0" cellpadding="0">
+                                <tbody>
+                                  <tr><td style="padding:5px 0 0 0"><a href="https://thedigitxllink.com" target="_blank"><img class="gif-asset" alt="" src="__ASSET_WEB__" width="24" height="24"></a></td></tr>
+                                  <tr><td style="padding:5px 0 0 0"><a href="https://www.instagram.com/slyrhtml/" target="_blank"><img class="gif-asset" alt="" src="__ASSET_INSTA__" width="24" height="24"></a></td></tr>
+                                  <tr><td style="padding:5px 0 0 0"><a href="https://www.linkedin.com/in/levi-carpenter-17023135a/" target="_blank"><img class="gif-asset" alt="" src="__ASSET_LINKEDIN__" width="24" height="24"></a></td></tr>
+                                  <tr><td style="padding:5px 0 0 0"><a href="https://www.facebook.com/profile.php?id=61574660926860" target="_blank"><img class="gif-asset" alt="" src="__ASSET_FACEBOOK__" width="24" height="24"></a></td></tr>
+                                  <tr><td style="padding:5px 0 0 0"><a href="https://www.youtube.com/@TheDigitxlLink" target="_blank"><img class="gif-asset" alt="" src="__ASSET_YOUTUBE__" width="24" height="24"></a></td></tr>
+                                </tbody>
+                              </table>
+                            </td>
+                            <td style="padding-right:20px; border-collapse:collapse;"></td>
+                            <td align="left" valign="middle">
+                              <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tbody>
+                                  <tr>
+                                    <td align="left" valign="middle" style="border-collapse:collapse;">
+                                      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                        <tbody>
+                                          <tr><td><a href="https://customesignature.com/" id="layout_link"><img class="gif-asset layout_logo" src="__ASSET_LOGO__" width="120" height="48" style="display:block;"></a></td></tr>
+                                          <tr>
+                                            <td style="border-collapse: collapse; padding:15px 0 0 0;">
+                                              <img class="gif-asset" src="__ASSET_CONTACT__" width="170" height="96" alt="Levi Carpenter, Owner / Founder, DigitxlLink LLC, 6106072432, levi@thedigitxllink.com" style="display:block;">
+                                            </td>
+                                          </tr>
+                                        </tbody>
+                                      </table>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </td>
+                            <td align="left" valign="middle" style="padding:0 0 0 15px; border-collapse:collapse;">
+                              <img class="gif-asset" style="display:block;" src="__ASSET_PHOTO__" width="140" height="140" alt="Levi Carpenter">
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="replay-row">
+      <button class="replay" id="replayBtn" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+        Replay animation
+      </button>
+      <span class="replay-hint">everything runs on its own 8s loop — this button just jumps the clock back to 0 so you don't have to wait</span>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>What's actually animating <span class="num">10 assets</span></h2>
+    <p class="desc">"Cycle" below is each GIF's own baked-in frame timing — email clients run no JavaScript, so the whole synchronized sequence has to live inside each file's frame delays. Every asset shares the exact same 8.0s total so nothing drifts out of phase, even though each one's internal fade-out/dark/fade-in windows are a different number of frames.</p>
+    <div class="spec-wrap">
+      <table class="spec">
+        <thead>
+          <tr>
+            <th>Asset</th>
+            <th>Effect</th>
+            <th class="num">Frames</th>
+            <th class="num">Cycle</th>
+            <th class="num">Size</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Card background</td><td>Breathing glow + darken + "thedigitxllink.com" reveal</td><td class="num">60</td><td class="num">8.0 s</td><td class="num">__SIZE_CARDBG__ KB</td></tr>
+          <tr><td>Logo</td><td>Smooth fade out/in, opens fully visible</td><td class="num">26</td><td class="num">8.0 s</td><td class="num">__SIZE_LOGO__ KB</td></tr>
+          <tr><td>Web icon</td><td>Smooth fade out/in, opens fully visible</td><td class="num">9</td><td class="num">8.0 s</td><td class="num">__SIZE_WEB__ KB</td></tr>
+          <tr><td>Instagram icon</td><td>Smooth fade out/in, opens fully visible</td><td class="num">9</td><td class="num">8.0 s</td><td class="num">__SIZE_INSTA__ KB</td></tr>
+          <tr><td>LinkedIn icon</td><td>Smooth fade out/in, opens fully visible</td><td class="num">9</td><td class="num">8.0 s</td><td class="num">__SIZE_LINKEDIN__ KB</td></tr>
+          <tr><td>Facebook icon</td><td>Smooth fade out/in, opens fully visible</td><td class="num">9</td><td class="num">8.0 s</td><td class="num">__SIZE_FACEBOOK__ KB</td></tr>
+          <tr><td>YouTube icon</td><td>Smooth fade out/in, opens fully visible</td><td class="num">7</td><td class="num">8.0 s</td><td class="num">__SIZE_YOUTUBE__ KB</td></tr>
+          <tr><td>Headshot</td><td>Animated GIF reveal out/in, opens fully visible</td><td class="num">17</td><td class="num">8.0 s</td><td class="num">__SIZE_PHOTO__ KB</td></tr>
+          <tr><td>Contact text</td><td>Animated transparent GIF reveal out/in, opens fully visible</td><td class="num">23</td><td class="num">8.0 s</td><td class="num">__SIZE_CONTACT__ KB</td></tr>
+          <tr><td>Background, Outlook fallback</td><td>Static bright frame (VML only, not fetched elsewhere) — Outlook never sees the dark/URL moment</td><td class="num">1</td><td class="num">—</td><td class="num">__SIZE_CARDBGSTATIC__ KB</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="callout">
+    <strong>This page is a viewing aid, not the hosting solution.</strong> The images above are embedded as base64 so you can watch them animate right now — but real email clients can't reliably load base64 images like this (most strip or size-cap them). Upload the files in <code>assets/gif/</code> to a public URL, then swap the <code>thedigitxllink.com/assets/signature/</code> placeholder in <code>build/signature.html</code> for the real address before pasting the signature into Gmail, Outlook, or Apple Mail.
+  </div>
+
+  <div class="callout">
+    <strong>The card background's Outlook fallback is unverified.</strong> Outlook desktop (Windows) ignores CSS <code>background-image</code> entirely, so <code>build/signature.html</code> includes the standard VML <code>v:rect</code>/<code>v:fill</code> workaround pointing at a static glow frame instead of the animated one. This is the accepted technique for background images in Outlook, but I have no Outlook install to test it against. Please sanity-check the Outlook desktop rendering yourself, or drop the VML block and let it fall back to the solid <code>#eaf3fc</code> <code>bgcolor</code> if it causes any layout issues.
+  </div>
+
+  <div class="callout">
+    <strong>The headshot and contact text are GIFs now.</strong> That removes the risky CSS animation dependency the Claude preview exposed. The contact text is no longer selectable HTML text, but it does carry an <code>alt</code> description and it now follows the same baked 8-second timeline as the logo, icons, and background.
+  </div>
+
+  <footer>Built from your customesignature.com export — DigitxlLink LLC</footer>
+</main>
+
+<script>
+  document.getElementById('replayBtn').addEventListener('click', function () {
+    var imgs = document.querySelectorAll('img.gif-asset');
+    imgs.forEach(function (img) {
+      var src = img.getAttribute('src');
+      img.setAttribute('src', '');
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          img.setAttribute('src', src);
+        });
+      });
+    });
+  });
+</script>
