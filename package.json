@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "sync:website": "node scripts/sync-to-website.js",
+    "sync:bundle": "node scripts/sync-host-bundle.js",
+    "sync:website": "node scripts/sync-host-bundle.js && node scripts/sync-to-website.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
