@@ -1,5 +1,7 @@
 // Canonical deploy bundle — must match build/host-upload/signature/ and README.
 module.exports = [
+  'border-animated.gif',
+  'border-static.png',
   'card-bg-animated.gif',
   'card-bg-static.png',
   'contact-text-animated.gif',

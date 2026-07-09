@@ -19,6 +19,7 @@ const assets = {
   photo: `data:image/gif;base64,${b64(path.join(GIF, 'profile-animated.gif'))}`,
   contact: `data:image/gif;base64,${b64(path.join(GIF, 'contact-text-animated.gif'))}`,
   cardbg: `data:image/gif;base64,${b64(path.join(GIF, 'card-bg-animated.gif'))}`,
+  border: `data:image/gif;base64,${b64(path.join(GIF, 'border-animated.gif'))}`,
 };
 
 const fonts = {
@@ -42,6 +43,7 @@ const sizes = {
   contact: fileSizeKB(path.join(GIF, 'contact-text-animated.gif')),
   cardbg: fileSizeKB(path.join(GIF, 'card-bg-animated.gif')),
   cardbgstatic: fileSizeKB(path.join(GIF, 'card-bg-static.png')),
+  border: fileSizeKB(path.join(GIF, 'border-animated.gif')),
 };
 
 const totalKB = Object.values(sizes).reduce((a, b) => a + parseFloat(b), 0).toFixed(1);
